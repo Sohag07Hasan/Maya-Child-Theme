@@ -11,13 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 global $post;
 
-
-if(wprobot_woocommerce::$wprobot_post){
-	if(strlen(wprobot_woocommerce::$wprobot_post['description']) > 2){
-		?>
-		<?php echo apply_filters( 'woocommerce_short_description', wprobot_woocommerce::$wprobot_post['description'] ) ?>
-		<?php
-	}
-}
-
+if ( ! $post->post_excerpt ) return;
 ?>
+<div itemprop="description">
+	<?php echo apply_filters( 'woocommerce_short_description', $post->post_excerpt ) ?>
+</div>

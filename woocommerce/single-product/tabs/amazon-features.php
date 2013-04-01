@@ -16,6 +16,7 @@ global $woocommerce, $post;
 ?>
 
 <?php $heading = esc_html( apply_filters('woocommerce_product_description_heading', __('Features', 'yiw' ))); ?>
+	<h2><?php echo $heading; ?></h2>
 <?php echo wprobot_woocommerce::$wprobot_post['features']; ?>
 
 <?php
