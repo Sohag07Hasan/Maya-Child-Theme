@@ -2,6 +2,8 @@
 /**
  * Single Product Tabs
  */
+ 
+ 
 ?>
 <div id="product-tabs" class="woocommerce_tabs">
 	<ul class="tabs">
