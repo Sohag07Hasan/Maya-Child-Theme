@@ -2,6 +2,7 @@
 /**
  * @package WordPress
  * @subpackage YIW Themes
+ * @customized by: Mahibul Hasan Sohag (hyde.sohag@gmail.com)
  * 
  * Here the first hentry of theme, when all theme will be loaded.
  * On new update of theme, you can not replace this file.
@@ -91,7 +92,7 @@ function Reviewzon_cart_update(){
 
 
 
-//mini cart
+//mini cart at the top bar
 function wp_robot_amazon_minicart( $echo = true ) {
 	
     global $woocommerce;
@@ -165,6 +166,62 @@ function wp_robot_amazon_minicart( $echo = true ) {
         echo $html;
     else
         return $html;
-}    
+}   
 
+
+
+/***********************  AJAX ACTIONS ******************************/
+add_action('wp_enqueue_scripts', 'enqueue_the_cart_actions_js');
+function enqueue_the_cart_actions_js(){
+	wp_enqueue_script('jquery');
+	
+	wp_register_script('amazon-products-cat-functionality-handling', get_stylesheet_directory_uri() . '/js/cart-actions.js', array('jquery'));
+	
+	wp_enqueue_script('amazon-products-cat-functionality-handling');
+	
+	wp_localize_script('amazon-products-cat-functionality-handling', "AMAZONPRODUCT", array('ajax_url'=>admin_url('admin-ajax.php')));
+}
+
+
+//ajax action
+add_action('wp_ajax_amazon_cart_actions', 'amazon_ajax_handle');
+add_action('wp_ajax_nopriv_amazon_cart_actions', 'amazon_ajax_handle');
+function amazon_ajax_handle(){
+	$product_id = (int)$_REQUEST['product_id'];
+	$quantity = 1;
+	$country = 'us';
+	
+	if(class_exists('AmazonPAS')):
+			$pas = new AmazonPAS();
+			$offer_listing_id = array(wprobot_woocommerce::get_amazon_asin($product_id) => $quantity);	
+								
+			$cartCookie = Reviewzon_get_cart();
+			
+			if($cartCookie != null){
+				$response = $pas->cart_add($cartCookie->cart->cartid, $cartCookie->cart->hmac, $offer_listing_id, null, $cartCookie->cart->country);
+										
+			}
+			else{
+				$response = $pas->cart_create($offer_listing_id,null,$country);		
+				if($response->isOK()){
+					$cookie = array();
+					$cartid = (string)$response->body->Cart->CartId;
+					$hmac = (string)$response->body->Cart->HMAC;		
+					$cart = array("cartid"=>$cartid,"hmac"=>$hmac,"country"=>$country);
+					$cookie["cart"] = $cart;
+					setcookie('wo_rzon_cart_info', json_encode(wprobot_woocommerce::wo_arrayToObject($cookie)), time()+100*24*60*60, '/');
+				}						
+				
+			}
+		 endif;
+		 
+		 //checking if the response is successful
+		if($response->isOK()) {
+	    	wp_robot_amazon_minicart();   		    	   	
+		}
+		else{
+			echo 0;
+		}
+	exit;
+}
 

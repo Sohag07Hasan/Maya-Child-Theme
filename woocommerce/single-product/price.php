@@ -36,6 +36,6 @@ global $post, $product;
 
 
 	<meta itemprop="priceCurrency" content="<?php echo get_woocommerce_currency(); ?>" />
-	<link itemprop="availability" href="http://schema.org/<?php echo $product->is_in_stock() ? 'InStock' : 'OutOfStock'; ?>" />
+	<link itemprop="availability" href="http://schema.org/<?php echo (isset(wprobot_woocommerce::$wprobot_post)) ? 'InStock' : 'OutOfStock'; ?>" />
 
 </div>
