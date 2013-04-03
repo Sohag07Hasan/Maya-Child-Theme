@@ -88,3 +88,83 @@ function Reviewzon_cart_update(){
 	endif;
 	
 }
+
+
+
+//mini cart
+function wp_robot_amazon_minicart( $echo = true ) {
+	
+    global $woocommerce;
+    
+    ob_start();
+	
+	$cartCookie = Reviewzon_get_cart();
+	
+	// quantity
+	$qty = 0;
+	if($cartCookie){
+			$pas = new AmazonPAS();
+			$response = $pas->cart_get($cartCookie->cart->cartid, $cartCookie->cart->hmac, null, $cartCookie->cart->country);
+			if($response->isOK()){
+				foreach($response->body->Cart->CartItems->CartItem as $cartItem){
+					$qty += (int)$cartItem->Quantity;
+				}
+			}
+		}
+	
+	
+	
+	if ( $qty == 1 )
+	   $label = __( 'item', 'yiw' );
+	else             
+	   $label = __( 'items', 'yiw' );  ?>
+	   
+	<a class="widget_shopping_cart trigger" href="<?php echo $woocommerce->cart->get_cart_url() ?>">
+		<span class="minicart"><?php echo $qty ?> <?php echo $label ?> </span>
+	</a>
+	
+	<?php if ( yiw_get_option('topbar_cart_ribbon_hover') ) : ?>
+	<div class="quick-cart">
+    	<ul class="cart_list product_list_widget"><?php
+    	
+    	if ($qty > 0 && isset($response->body->Cart->CartItems->CartItem)) :
+    	
+            foreach($response->body->Cart->CartItems->CartItem as $cartItem) :
+				
+				$product_id = get_product_id_byASIN($cartItem->ASIN);	
+				$product_name = (string)$cartItem->Title;
+				$permalink = get_permalink($product_id);			
+               ?>
+					<li>
+						<a href="<?php echo get_permalink($product_id); ?>"><?php echo apply_filters('woocommerce_cart_widget_product_title', $product_name) ?></a>
+						<span class="price"><?php echo apply_filters('woocommerce_cart_item_price_html', (string)$cartItem->Price->FormattedPrice, $post_id); ?></span>
+					</li>
+			<?php				
+				
+            endforeach;
+            
+        else : ?>
+            <li class="empty"><?php _e('No products in the cart.', 'yiw' ) ?></li><?php
+        endif;   
+    	
+    	if ($qty > 0 && isset($response->body->Cart->CartItems->CartItem)) :
+    	?>
+    	   <li class="totals"><?php _e( 'Subtotal', 'yiw' ) ?><span class="price"><?php echo (string)$cartItem->ItemTotal->FormattedPrice; ?></span></li><?php
+    	endif; ?>
+    	
+    	   <li class="view-cart-button"><a class="view-cart-button" href="<?php echo $woocommerce->cart->get_cart_url(); ?>"><?php echo apply_filters( 'yiw_topbar_minicart_view_cart', __( 'View cart', 'yiw' ) ) ?></a></li>
+    	
+    	</ul>
+    	
+    </div><?php
+    endif;
+    
+    $html = ob_get_clean();
+    
+    if ( $echo )
+        echo $html;
+    else
+        return $html;
+}    
+
+

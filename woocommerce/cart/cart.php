@@ -59,13 +59,6 @@ global $woocommerce;
 		<?php
 		
 		
-		
-			//$cartCookie = json_decode(stripslashes($_COOKIE["wo_rzon_cart_info"]));
-			$cartCookie = Reviewzon_get_cart();
-			
-		
-				$pas = new AmazonPAS();
-				$response = $pas->cart_get($cartCookie->cart->cartid, $cartCookie->cart->hmac, null, $cartCookie->cart->country);
 							
 				$cart_page_link = get_permalink(woocommerce_get_page_id('cart'));
 				

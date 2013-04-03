@@ -12,3 +12,92 @@ template: maya
 @import url("../maya/style.css");
 
 /* Below you can write your style */
+
+
+/*amazon cart*/
+#amazon-cart{
+	position: absolute;
+	top: 0px;
+	right: 17px;
+	width: 112px;
+	height: 95px;
+	background: url('../maya/images/cart-ribbon.png') no-repeat;
+}
+
+#amazon-cart a{
+	display: block;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	position: relative;
+	color: #CCCACA;
+	font-family: 'Calibri', 'Droid Sans', Verdana, Arial, sans-serif;
+}
+
+#amazon-cart a .minicart {
+    display:block;
+    padding-top:45px;
+}
+
+#amazon-cart .quick-cart {
+    border-radius:5px;
+    -webkit-border-radius:5px;
+    -mox-border-radius:5px;
+    position:absolute;
+    right:1px;
+    background:#3e3d3b url('images/bg/quick-cart-pattern.png');
+    width:150px;
+    padding:16px 38px 22px 25px;
+    margin-top:-28px;
+    display:none;
+}
+
+#amazon-cart:hover .quick-cart {
+    display:block;
+}
+
+#amazon-cart .quick-cart ul {
+    margin:0;
+}
+
+#amazon-cart .quick-cart li a, #amazon-cart .quick-cart li .price {  
+    color:#c7c6c6 !important;
+}
+
+#amazon-cart .quick-cart li:hover a, #amazon-cart .quick-cart li:hover .price, #amazon-cart .quick-cart li.empty, #amazon-cart .quick-cart li.totals, #amazon-cart .quick-cart li.totals .price {  
+    color:#fff !important;
+}
+
+#amazon-cart .quick-cart li a {
+    display:inline;    
+    font-weight:normal;   
+}
+
+#amazon-cart .quick-cart li .price {
+    float:right;
+}
+
+#amazon-cart .quick-cart li.empty, #amazon-cart .quick-cart li.view-cart-button {
+    text-align:right;
+}
+
+#amazon-cart .quick-cart li.view-cart-button {
+    padding:5px 10px !important;
+    background:#1e1c1c;   
+    float:right;
+    border:1px solid #4e4a4a;  
+    margin-top:5px !important;   
+    border-radius:5px;
+    -webkit-border-radius:5px;
+    -mox-border-radius:5px;
+    cursor:pointer;
+}
+
+#amazon-cart .quick-cart li.view-cart-button:hover {
+    background:#383434;   
+}
+
+#amazon-cart .quick-cart a.view-cart-button {
+    display:block;
+    color:#fff !important;
+}
