@@ -9,6 +9,7 @@
  * @ Custmozied by  Mahibul Hasan SOhag(hyde.sohag@gmail.com)
  */
 
+
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  
 global $post, $product, $woocommerce_loop;
@@ -20,7 +21,7 @@ else
                 
 
 //amazon functionalities
-if(!wprobot_woocommerce::is_sell_able()) return;
+if($product->price < 0) return;
 
 ?>
 

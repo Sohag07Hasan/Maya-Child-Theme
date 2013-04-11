@@ -1,6 +1,6 @@
 <?php
 /**
- * Loop Price edited by Mahibul Hasan
+ * Loop Price
  *
  * @author 		WooThemes
  * @package 	WooCommerce/Templates
@@ -12,21 +12,6 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 global $product;
 ?>
 
-<?php if(wprobot_woocommerce::$wprobot_post) : ?>
-
-	<span class="price">
-		<?php 
-			if(isset(wprobot_woocommerce::$wprobot_post['list_price']) && (wprobot_woocommerce::$wprobot_post['list_price'] < wprobot_woocommerce::$wprobot_post['price'])){
-				echo "<del class='amount'>" . wprobot_woocommerce::$wprobot_post['list_price'] . "</del>" ;
-			}
-		?>
-		
-		<?php 
-			if(isset(wprobot_woocommerce::$wprobot_post['price'])){
-				echo "<ins class='amount'>" . wprobot_woocommerce::$wprobot_post['price'] . "</ins>" ;
-			}
-		?>
-		
-	</span>
-	
+<?php if ( $price_html = $product->get_price_html() ) : ?>
+	<span class="price"><?php echo $price_html; ?></span>
 <?php endif; ?>

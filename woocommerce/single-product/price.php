@@ -15,19 +15,17 @@ global $post, $product;
 ?>
 <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
 
-<?php if(wprobot_woocommerce::$wprobot_post) : ?>
+<?php if($product->price > 0) : ?>
 
 	<p itemprop="price" class="price">
 		<?php 
-			if(isset(wprobot_woocommerce::$wprobot_post['list_price']) && (wprobot_woocommerce::$wprobot_post['list_price'] < wprobot_woocommerce::$wprobot_post['price'])){
-				echo "<del class='amount'>" . wprobot_woocommerce::$wprobot_post['list_price'] . "</del>" ;
+			if($product->regular_price > $product->price){
+				echo "<del class='amount'>" . woocommerce_price($product->regular_price) . "</del>" ;
 			}
 		?>
 		
 		<?php 
-			if(isset(wprobot_woocommerce::$wprobot_post['price'])){
-				echo "<ins class='amount'>" . wprobot_woocommerce::$wprobot_post['price'] . "</ins>" ;
-			}
+				echo "<ins class='amount'>" . woocommerce_price($product->price) . "</ins>" ;			
 		?>
 		
 	</p>
@@ -36,6 +34,6 @@ global $post, $product;
 
 
 	<meta itemprop="priceCurrency" content="<?php echo get_woocommerce_currency(); ?>" />
-	<link itemprop="availability" href="http://schema.org/<?php echo (isset(wprobot_woocommerce::$wprobot_post)) ? 'InStock' : 'OutOfStock'; ?>" />
+	<link itemprop="availability" href="http://schema.org/InStock" />
 
 </div>

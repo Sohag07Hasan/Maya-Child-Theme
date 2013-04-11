@@ -15,9 +15,12 @@ global $woocommerce, $post;
 
 ?>
 
-<?php $heading = esc_html( apply_filters('woocommerce_product_description_heading', __('Description', 'yiw' ))); ?>
+<?php $heading = esc_html( apply_filters('woocommerce_product_description_heading', __('Product Description', 'yiw' ))); ?>
 	<h2><?php echo $heading; ?></h2>
-<?php echo wprobot_woocommerce::$wprobot_post['description']; ?>
+<?php 
+	$description = get_post_meta($post->ID, 'description', true);
+	echo (strlen($description) > 2) ? $description : ''; 
+?>
 
 <?php
 if( yiw_get_option( 'shop_show_share_socials' ) ) :

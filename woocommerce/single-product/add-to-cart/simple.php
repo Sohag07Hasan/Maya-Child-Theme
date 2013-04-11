@@ -15,7 +15,7 @@ global $woocommerce, $product;
 ?>
 
 <?php
-	if(!wprobot_woocommerce::is_sell_able()) return;
+	if($product->price < 0) return;
 ?>
 
 

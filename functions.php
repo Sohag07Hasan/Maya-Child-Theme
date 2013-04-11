@@ -8,6 +8,30 @@
  * On new update of theme, you can not replace this file.
  * You will write here all your custom functions, they remain after upgrade.
  */                                                                               
+ 
+ /* 
+  * Truncate the titles
+  * */
+
+add_filter('the_title', 'truncate_product_title');
+function truncate_product_title($text){
+			
+	$limit = 5;
+	if (str_word_count($text, 0) > $limit) {
+          $words = str_word_count($text, 2);
+          $pos = array_keys($words);
+          $text = substr($text, 0, $pos[$limit]) . '...';
+      }
+      return $text;
+      
+}
+  
+
+
+
+
+
+
 
 
 
@@ -150,7 +174,7 @@ function wp_robot_amazon_minicart( $echo = true ) {
     	
     	if ($qty > 0 && isset($response->body->Cart->CartItems->CartItem)) :
     	?>
-    	   <li class="totals"><?php _e( 'Subtotal', 'yiw' ) ?><span class="price"><?php echo (string)$cartItem->ItemTotal->FormattedPrice; ?></span></li><?php
+    	   <li class="totals"><?php _e( 'Subtotal', 'yiw' ) ?><span class="price"><?php echo (string)$response->body->Cart->SubTotal->FormattedPrice; ?></span></li><?php
     	endif; ?>
     	
     	   <li class="view-cart-button"><a class="view-cart-button" href="<?php echo $woocommerce->cart->get_cart_url(); ?>"><?php echo apply_filters( 'yiw_topbar_minicart_view_cart', __( 'View cart', 'yiw' ) ) ?></a></li>
