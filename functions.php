@@ -15,7 +15,7 @@
 
 add_filter('the_title', 'truncate_product_title');
 function truncate_product_title($text){
-			
+	/*		
 	$limit = 5;
 	if (str_word_count($text, 0) > $limit) {
           $words = str_word_count($text, 2);
@@ -23,11 +23,20 @@ function truncate_product_title($text){
           $text = substr($text, 0, $pos[$limit]) . '...';
       }
       return $text;
+      */
       
+      $limit = 35;
+      if(strlen($text) > $limit){
+			$text = substr($text, 0, $limit) . '...';
+	  }
+	  
+	  return $text;
 }
   
 
 
+//Review manipulation
+remove_action('woocommerce_after_shop_loop_item', 'yiw_star_rating');
 
 
 
