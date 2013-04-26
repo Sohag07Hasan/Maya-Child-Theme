@@ -102,11 +102,8 @@ function Reviewzon_get_cart(){
 add_action( 'init', 'Reviewzon_cart_update' );
 function Reviewzon_cart_update(){
 	if($_POST['Reviewzon_cart_updated'] == "Y") :
+	
 		
-		//checkout page
-		if(isset($_POST['proceed'])){
-			return wp_robot_amazon_checkout();
-		}
 	
 		$cart_item_id = array();
 		if(is_array($_POST['cart'])){
@@ -128,46 +125,6 @@ function Reviewzon_cart_update(){
 	endif;
 	
 }
-
-
-/**
- * redirect to amazon checkout apge
- * */
-function wp_robot_amazon_checkout(){
-	$cartCookie = Reviewzon_get_cart();
-	if($cartCookie){
-		$pas = new AmazonPAS();
-		$response = $pas->cart_get($cartCookie->cart->cartid, $cartCookie->cart->hmac, null, $cartCookie->cart->country);
-		if($response->isOK()){
-			if(count($response->body->Cart->CartItems->CartItem) > 0){
-				foreach($response->body->Cart->CartItems->CartItem as $cartItem){
-					$product_id = get_product_id_byASIN($cartItem->ASIN);
-					$quantity = (string) $cartItem->Quantity;
-					
-					$previous_stat = (int) get_post_meta($product_id, 'total_sales', true);
-					
-					$previous_stat = ($previous_stat > 0) ? $previous_stat : 0;
-					
-					$quantity = (int) $quantity + $previous_stat;
-					update_post_meta($product_id, 'total_sales', $quantity);
-				}
-			}
-			
-			$url = (string)$response->body->Cart->PurchaseURL;
-			
-			if(!function_exists('wp_redirect')){
-				include ABSPATH . '/wp-includes/pluggable.php';
-			}
-			
-			wp_redirect($url);
-			exit;
-		}
-	}
-	
-	global $woocommerce;
-	$woocommerce->add_message("Please check your Cart. Probably it is empty");
-}
-
 
 
 

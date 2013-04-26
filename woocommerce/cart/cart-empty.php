@@ -145,7 +145,9 @@ global $woocommerce;
 				<input type="submit" class="button" name="update_cart" value="<?php _e('Update Cart', 'woocommerce'); ?>" /> 
 			</td>
 			<td>
-				<a href="<?php echo (string)$response->body->Cart->PurchaseURL ?>"> <input class="checkout-button button alt" type="button" value="<?php _e('Proceed to Checkout &rarr;', 'woocommerce'); ?>"></a>			
+				<!-- <a href="<?php //echo (string)$response->body->Cart->PurchaseURL ?>"> <input class="checkout-button button alt" type="button" value="<?php _e('Proceed to Checkout &rarr;', 'woocommerce'); ?>"></a>	 -->
+				<input type="submit" class="checkout-button button alt" name="proceed" value="<?php _e( 'Proceed to Checkout &rarr;', 'woocommerce' ); ?>" />
+			</td>		
 		</tr>
 
 		<?php do_action( 'woocommerce_after_cart_contents' ); ?>
