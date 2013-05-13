@@ -103,11 +103,7 @@ add_action( 'init', 'Reviewzon_cart_update' );
 function Reviewzon_cart_update(){
 	if($_POST['Reviewzon_cart_updated'] == "Y") :
 		
-		//checkout page
-		if(isset($_POST['proceed'])){
-			return wp_robot_amazon_checkout();
-		}
-	
+			
 		$cart_item_id = array();
 		if(is_array($_POST['cart'])){
 			foreach($_POST['cart'] as $item_id => $quantity){
@@ -124,6 +120,11 @@ function Reviewzon_cart_update(){
 				}
 			}
 		}		
+		
+		//checkout page
+		if(isset($_POST['proceed'])){
+			return wp_robot_amazon_checkout();
+		}
 		
 	endif;
 	
@@ -302,5 +303,24 @@ function amazon_ajax_handle(){
 			echo 0;
 		}
 	exit;
+}
+
+
+//ordering by average rating
+add_filter('woocommerce_get_catalog_ordering_args', 'woocommerce_get_catalog_ordering_args', 100, 1);
+function woocommerce_get_catalog_ordering_args($args){
+	if($_REQUEST['orderby'] == 'avg_rating'){
+		$args['orderby']  = 'meta_value_num';
+		$args['order']    = $order == 'asc' ? 'asc' : 'desc';
+		$args['meta_key'] = 'avg_rating';
+	}
+	
+	if($_REQUEST['orderby'] == 'review_count'){
+		$args['orderby']  = 'meta_value_num';
+		$args['order']    = $order == 'asc' ? 'asc' : 'desc';
+		$args['meta_key'] = 'review_count';
+	}
+	
+	return $args;
 }
 
