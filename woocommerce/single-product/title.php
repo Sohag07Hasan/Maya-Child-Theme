@@ -25,16 +25,21 @@ $rating = ($rating > 0) ? $rating : 0;
 <div style="margin-top: 3px; float: left;" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating" class="star-rating" title="<?php echo sprintf(__( 'Rated %s out of 5', 'woocommerce' ), $rating) ?>">
 	<span style="width:<?php echo ( $rating / 5 ) * 100; ?>%"><strong itemprop="ratingValue"><?php echo  $rating ; ?></strong> <?php _e( 'out of 5', 'woocommerce' ); ?></span> 
 	
+	
+	
+</div>
+
+<div style="float: left; margin-left: 10px; margin-top: 3px">
 	<?php 
 		if($count > 0):
 			?>
-			<div style="clear: both"></div>
-			<div>
+			<!-- <div style="clear: both"></div> -->
+			
 				( <?php echo $count; ?> Reviews )
-			</div>
+				
 			<?php
 		endif;
 	?>
-	
 </div>
+
 

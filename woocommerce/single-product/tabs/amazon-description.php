@@ -19,7 +19,7 @@ global $woocommerce, $post;
 	<h2><?php echo $heading; ?></h2>
 <?php 
 	$description = get_post_meta($post->ID, 'description', true);
-	echo (strlen($description) > 2) ? $description : ''; 
+	echo (strlen($description) > 2) ? strip_tags($description, '<p><a><h1><h2><h3><h4><h5><h6><br>') : ''; 
 ?>
 
 <?php

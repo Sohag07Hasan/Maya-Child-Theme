@@ -289,7 +289,7 @@ function amazon_ajax_handle(){
 					$hmac = (string)$response->body->Cart->HMAC;		
 					$cart = array("cartid"=>$cartid,"hmac"=>$hmac,"country"=>$country);
 					$cookie["cart"] = $cart;
-					setcookie('wo_rzon_cart_info', json_encode(wprobot_woocommerce::wo_arrayToObject($cookie)), time()+100*24*60*60, '/');
+					setcookie('wo_rzon_cart_info', json_encode(wprobot_woocommerce::wo_arrayToObject($cookie)), current_time('timestamp')+7*24*60*60, '/');
 				}						
 				
 			}
@@ -337,5 +337,23 @@ function woocommerce_get_catalog_ordering_args($args){
 add_filter('woocommerce_default_catalog_orderby', 'woocommerce_default_catalog_orderby', 100, 1);
 function woocommerce_default_catalog_orderby($orderby){
 	return $orderby;
+}
+
+
+add_action('woocommerce_after_add_to_cart_form', 'woocommerce_after_add_to_cart_form');
+function woocommerce_after_add_to_cart_form(){
+	?>
+		
+		<!-- AddThis Button BEGIN -->
+		<div class="addthis_toolbox addthis_default_style ">
+		<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+		<a class="addthis_button_tweet"></a>
+		<a class="addthis_button_pinterest_pinit"></a>
+		<a class="addthis_counter addthis_pill_style"></a>
+		</div>
+		<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=xa-5193f8a9540c1be4"></script>
+		<!-- AddThis Button END -->
+		
+	<?php
 }
 
