@@ -309,18 +309,33 @@ function amazon_ajax_handle(){
 //ordering by average rating
 add_filter('woocommerce_get_catalog_ordering_args', 'woocommerce_get_catalog_ordering_args', 100, 1);
 function woocommerce_get_catalog_ordering_args($args){
-	if($_REQUEST['orderby'] == 'avg_rating'){
+	if($_REQUEST['orderby'] == 'avgrating'){
 		$args['orderby']  = 'meta_value_num';
 		$args['order']    = $order == 'asc' ? 'asc' : 'desc';
 		$args['meta_key'] = 'avg_rating';
 	}
 	
-	if($_REQUEST['orderby'] == 'review_count'){
+	
+	if($_REQUEST['orderby'] == 'reviewcount'){
 		$args['orderby']  = 'meta_value_num';
 		$args['order']    = $order == 'asc' ? 'asc' : 'desc';
 		$args['meta_key'] = 'review_count';
 	}
 	
+	
+	if(empty($_REQUEST['orderby'])){
+		$args['orderby']  = 'meta_value_num';
+		$args['order']    = $order == 'asc' ? 'asc' : 'desc';
+		$args['meta_key'] = 'review_count';
+	}
+	
+	
 	return $args;
+}
+
+//changing the default ordering
+add_filter('woocommerce_default_catalog_orderby', 'woocommerce_default_catalog_orderby', 100, 1);
+function woocommerce_default_catalog_orderby($orderby){
+	return $orderby;
 }
 
