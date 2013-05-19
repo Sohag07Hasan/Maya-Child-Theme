@@ -103,5 +103,11 @@ template: maya
 }
 
 
-/* Showing the amazon reviews */
+/* Changing the color of amazon prices*/
+span.price ins.amount{
+	color: #900;
+	font-size: 1.35em;
+	letter-spacing: -1px;
+	font-weight: normal;
+}
 
